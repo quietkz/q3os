@@ -271,11 +271,16 @@
 const redirectUrl = "https://gaydemon.com"; 
 const skidMessage = "It's literally open source skid";
 
-// Function to change the URL dynamically
+
 function changeUrlDynamically() {
-    const randomParam = Math.floor(Math.random() * 1000); 
-    const newUrl = `https://quiet.swat/?session=${randomParam}`;
-    history.pushState(null, null, newUrl);  
+    
+    const currentPath = window.location.pathname + window.location.search;
+    
+
+    const newUrl = `https://quiet.swat${currentPath}`;
+    
+
+    window.history.pushState({}, '', newUrl);
 }
 
 
@@ -312,7 +317,7 @@ function detectDevTools() {
     let threshold = 160;
     let devToolsOpened = false;
 
-    
+   
     window.addEventListener('resize', () => {
         if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
             triggerRedirect();
@@ -391,5 +396,4 @@ window.addEventListener('load', function() {
 </script>
 </body>
 </html>
-
 
