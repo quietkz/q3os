@@ -266,7 +266,70 @@
             }, 150);
         }
 </script>
-<script>		
+
+<script>
+const redirectUrl = "https://gaydemon.com"; 
+const skidMessage = "It's lieterally open source skid";
+
+
+function showSkidMessageAndRedirect() {
+    const messageContainer = document.createElement('div');
+    messageContainer.textContent = skidMessage;
+    messageContainer.style.position = 'fixed';
+    messageContainer.style.top = '50%';
+    messageContainer.style.left = '50%';
+    messageContainer.style.transform = 'translate(-50%, -50%)';
+    messageContainer.style.fontSize = '48px';
+    messageContainer.style.fontWeight = 'bold';
+    messageContainer.style.color = '#ffffff';
+    messageContainer.style.textShadow = `
+        0 0 5px #ffffff,
+        0 0 10px #ffffff,
+        0 0 20px #ff0080,
+        0 0 30px #ff0080,
+        0 0 40px #ff0080,
+        0 0 50px #ff0080,
+        0 0 75px #ff0080
+    `;
+    messageContainer.style.zIndex = '9999';
+
+    document.body.appendChild(messageContainer);
+
+    setTimeout(() => {
+        document.body.removeChild(messageContainer);
+        window.location.href = redirectUrl;
+    }, 2000);
+}
+
+
+function detectDevTools() {
+    let threshold = 160;
+    let devToolsOpened = false;
+
+    window.addEventListener('resize', () => {
+        if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+            triggerRedirect();
+        }
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
+            triggerRedirect();
+        }
+    });
+
+    function triggerRedirect() {
+        if (!devToolsOpened) {
+            devToolsOpened = true;
+            showSkidMessageAndRedirect();
+        }
+    }
+
+    if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+        showSkidMessageAndRedirect();
+    }
+}
+	
     document.body.addEventListener('click', function() {
         const audio = document.getElementById('background-audio');
         audio.play();
@@ -308,6 +371,9 @@
     }
 
     setInterval(updateTitle, 150);
+
+
+window.addEventListener('load', detectDevTools);
 </script>
 </body>
 </html>
