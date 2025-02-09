@@ -268,21 +268,8 @@
 </script>
 
 <script>
-const redirectUrl = "https://gaydemon.com"; 
+const redirectUrl = "https://gaydemon.com";
 const skidMessage = "It's literally open source skid";
-
-
-function changeUrlDynamically() {
-    
-    const currentPath = window.location.pathname + window.location.search;
-    
-
-    const newUrl = `https://quiet.swat${currentPath}`;
-    
-
-    window.history.pushState({}, '', newUrl);
-}
-
 
 function showSkidMessageAndRedirect() {
     const messageContainer = document.createElement('div');
@@ -300,6 +287,7 @@ function showSkidMessageAndRedirect() {
         0 0 20px #ff0080,
         0 0 30px #ff0080,
         0 0 40px #ff0080,
+        0 0 50px #ff0080,
         0 0 75px #ff0080
     `;
     messageContainer.style.zIndex = '9999';
@@ -312,12 +300,10 @@ function showSkidMessageAndRedirect() {
     }, 2000);
 }
 
-
 function detectDevTools() {
     let threshold = 160;
     let devToolsOpened = false;
 
-   
     window.addEventListener('resize', () => {
         if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
             triggerRedirect();
@@ -337,18 +323,10 @@ function detectDevTools() {
         }
     }
 
-    
     if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
         showSkidMessageAndRedirect();
     }
 }
-
-
-document.body.addEventListener('click', function() {
-    const audio = document.getElementById('background-audio');
-    audio.play();
-});
-
 
 function enterSite() {
     document.getElementById('initial-screen').style.opacity = '0';
@@ -359,10 +337,21 @@ function enterSite() {
     }, 1000);
 }
 
-const titleText = "Q u i e t"; 
-let titleIndex = 0;
-let typingDirection = 1; 
+function changeUrlToCustomDomain() {
+    if (location.hostname !== "quiet.swat") {
+        const newUrl = location.href.replace(location.hostname, "quiet.swat");
+        history.replaceState(null, "", newUrl);
+    }
+}
 
+window.addEventListener('load', () => {
+    changeUrlToCustomDomain();
+    detectDevTools();
+});
+
+const titleText = "Q u i e t";
+let titleIndex = 0;
+let typingDirection = 1;
 
 function updateTitle() {
     const partBefore = "@";
@@ -385,15 +374,8 @@ function updateTitle() {
         }
     }
 }
-
+window.addEventListener('load', detectDevTools,);
 setInterval(updateTitle, 150);
-
-
-window.addEventListener('load', function() {
-    changeUrlDynamically();  
-    detectDevTools();  
-});
 </script>
 </body>
 </html>
-
