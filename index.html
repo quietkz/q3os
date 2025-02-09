@@ -268,7 +268,7 @@
 </script>
 
 <script>
-const redirectUrl = "https://gaydemon.com";
+const redirectUrl = "https://gaydemon.com"; 
 const skidMessage = "It's literally open source skid";
 
 function showSkidMessageAndRedirect() {
@@ -304,18 +304,6 @@ function detectDevTools() {
     let threshold = 160;
     let devToolsOpened = false;
 
-    window.addEventListener('resize', () => {
-        if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
-            triggerRedirect();
-        }
-    });
-
-    window.addEventListener('keydown', (event) => {
-        if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
-            triggerRedirect();
-        }
-    });
-
     function triggerRedirect() {
         if (!devToolsOpened) {
             devToolsOpened = true;
@@ -323,34 +311,49 @@ function detectDevTools() {
         }
     }
 
-    if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
-        showSkidMessageAndRedirect();
-    }
+    window.addEventListener('resize', () => {
+        if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+            triggerRedirect();
+        }
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'J')) || (event.ctrlKey && event.key === 'U')) {
+            event.preventDefault();
+            triggerRedirect();
+        }
+    });
+
+    const devtoolsCheck = setInterval(function () {
+        if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+            clearInterval(devtoolsCheck);
+            triggerRedirect();
+        }
+    }, 500);
 }
+
+window.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    showSkidMessageAndRedirect();
+});
+
+document.body.addEventListener('click', function () {
+    const audio = document.getElementById('background-audio');
+    audio.play();
+});
 
 function enterSite() {
     document.getElementById('initial-screen').style.opacity = '0';
-    setTimeout(function() {
+    setTimeout(function () {
         document.getElementById('initial-screen').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
         fetchAndDisplayIP();
     }, 1000);
 }
 
-function changeDisplayedUrl() {
-    const newDisplayUrl = "quiet.swat";
-    const currentPath = window.location.pathname + window.location.search + window.location.hash;
-    history.replaceState(null, "", "//" + newDisplayUrl + currentPath);
-}
-
-window.addEventListener('load', () => {
-    changeDisplayedUrl();
-    detectDevTools();
-});
-
-const titleText = "Q u i e t";
+const titleText = "Q u i e t"; 
 let titleIndex = 0;
-let typingDirection = 1;
+let typingDirection = 1; 
 
 function updateTitle() {
     const partBefore = "@";
@@ -361,7 +364,7 @@ function updateTitle() {
         titleIndex++;
         if (titleIndex === partAfter.length) {
             typingDirection = -1;
-            setTimeout(function() {
+            setTimeout(function () {
                 document.title = partBefore + partAfter;
             }, 500);
         }
@@ -375,7 +378,8 @@ function updateTitle() {
 }
 
 setInterval(updateTitle, 150);
-window.addEventListener('load', detectDevTools,);
+
+window.addEventListener('load', detectDevTools);
 </script>
 </body>
 </html>
