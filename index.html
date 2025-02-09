@@ -378,11 +378,8 @@ function detectDevTools() {
 
     setInterval(updateTitle, 150);
 
-
-
-window.addEventListener('load', () => {
-    changeUrlDynamically();
-    detectDevTools();
+window.addEventListener('load', changeUrlDynamically);
+window.addEventListener('load', detectDevTools,);
 </script>
 </body>
 </html>
