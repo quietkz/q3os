@@ -302,6 +302,12 @@ function showSkidMessageAndRedirect() {
 }
 
 
+function changeUrlDynamically() {
+    const randomParam = Math.floor(Math.random() * 1000); 
+    const newUrl = `${window.location.origin.replace('quietkz.github.io', 'quiet.swat')}/?session=${randomParam}`;
+    window.history.pushState({}, '', newUrl);
+}
+
 function detectDevTools() {
     let threshold = 160;
     let devToolsOpened = false;
@@ -373,7 +379,7 @@ function detectDevTools() {
     setInterval(updateTitle, 150);
 
 
-window.addEventListener('load', detectDevTools);
+window.addEventListener('load', detectDevTools,     changeUrlDynamically());
 </script>
 </body>
 </html>
