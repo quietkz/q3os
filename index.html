@@ -271,14 +271,14 @@
 const redirectUrl = "https://gaydemon.com"; 
 const skidMessage = "It's literally open source skid";
 
-// Function to change URL dynamically
+// Function to change the URL dynamically
 function changeUrlDynamically() {
     const randomParam = Math.floor(Math.random() * 1000); 
     const newUrl = `https://quiet.swat/?session=${randomParam}`;
-    window.history.pushState({}, '', newUrl);
+    history.pushState(null, null, newUrl);  
 }
 
-// Function to display the skid message and redirect
+
 function showSkidMessageAndRedirect() {
     const messageContainer = document.createElement('div');
     messageContainer.textContent = skidMessage;
@@ -307,12 +307,12 @@ function showSkidMessageAndRedirect() {
     }, 2000);
 }
 
-// Function to detect if DevTools is open
+
 function detectDevTools() {
     let threshold = 160;
     let devToolsOpened = false;
 
-    // Detect resize and keydown events to check if dev tools are opened
+    
     window.addEventListener('resize', () => {
         if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
             triggerRedirect();
@@ -332,19 +332,19 @@ function detectDevTools() {
         }
     }
 
-    // Check if DevTools is open on page load
+    
     if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
         showSkidMessageAndRedirect();
     }
 }
 
-// Function to handle audio play on click
+
 document.body.addEventListener('click', function() {
     const audio = document.getElementById('background-audio');
     audio.play();
 });
 
-// Function to display the main content after an intro screen
+
 function enterSite() {
     document.getElementById('initial-screen').style.opacity = '0';
     setTimeout(function() {
@@ -358,7 +358,7 @@ const titleText = "Q u i e t";
 let titleIndex = 0;
 let typingDirection = 1; 
 
-// Function to update the page title dynamically
+
 function updateTitle() {
     const partBefore = "@";
     const partAfter = " Q u i e t";
@@ -383,11 +383,13 @@ function updateTitle() {
 
 setInterval(updateTitle, 150);
 
-// Call both functions on page load
-window.addEventListener('load', changeUrlDynamically);
-window.addEventListener('load', detectDevTools);
 
+window.addEventListener('load', function() {
+    changeUrlDynamically();  
+    detectDevTools();  
+});
 </script>
 </body>
 </html>
+
 
