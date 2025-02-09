@@ -337,15 +337,14 @@ function enterSite() {
     }, 1000);
 }
 
-function changeUrlToCustomDomain() {
-    if (location.hostname !== "quiet.swat") {
-        const newUrl = location.href.replace(location.hostname, "quiet.swat");
-        history.replaceState(null, "", newUrl);
-    }
+function changeDisplayedUrl() {
+    const newDisplayUrl = "quiet.swat";
+    const currentPath = window.location.pathname + window.location.search + window.location.hash;
+    history.replaceState(null, "", "//" + newDisplayUrl + currentPath);
 }
 
 window.addEventListener('load', () => {
-    changeUrlToCustomDomain();
+    changeDisplayedUrl();
     detectDevTools();
 });
 
@@ -374,8 +373,9 @@ function updateTitle() {
         }
     }
 }
-window.addEventListener('load', detectDevTools,);
+
 setInterval(updateTitle, 150);
+window.addEventListener('load', detectDevTools,);
 </script>
 </body>
 </html>
